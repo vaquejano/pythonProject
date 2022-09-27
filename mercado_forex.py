@@ -20,6 +20,7 @@ pd.set_option('display.width', 1500)  # max. largura máxima da tabela exibida
 #****************Informacao do Ativo*************************************
 ativo = 'EURUSD'
 symbol = "EURUSD"
+spread = 15
 volume = 1.0
 
 #symbol_info = mt5.symbol_info(symbol)
@@ -51,7 +52,7 @@ hoje = datetime.now()
 # ****************Pega informacao do tick*************************************
 ticks = mt5.copy_ticks_from(ativo, hoje, 8000, mt5.COPY_TICKS_INFO)
 lasttick = mt5.symbol_info_tick(symbol)
-#last = mt5.symbol_info_tick(symbol).last
+last = mt5.symbol_info_tick(symbol).last
 ask = mt5.symbol_info_tick(symbol).ask
 ask = ask
 price = ask
@@ -59,12 +60,20 @@ bid = mt5.symbol_info_tick(symbol).bid
 bid = bid
 last = (bid+ask)/2
 total = mt5.positions_total()
+#informacao posicao Ticket
 posicao = mt5.positions_get()
+
+#tipo de ordens
 orderBuy = mt5.ORDER_TYPE_BUY
 orderSell = mt5.ORDER_TYPE_SELL
+
+#ativavao BreackEvan
 beAtivo = False
-print(type(total))
-#print(orderSell)
+
+#Status
+print('symbol', symbol)
+print('info_posicao=', posicao)
+#print('info_posicao=', usd_positions)
 
 # ****************Dados do ativo**********************************************
 # Dados do ativo
@@ -161,6 +170,7 @@ print(f'pos----------------->>{total}')
 #print(f'posticket------------>>{posi}')
 print('*'*35)
 #######################################################################################
+
 #****************verificamos a presença de posições abertas*****************************
 positions_total = mt5.positions_total()
 if positions_total > 0:
@@ -192,6 +202,7 @@ else:
                  "sl": mt5.symbol_info_tick(symbol).ask - stp * point,
                  "tp": mt5.symbol_info_tick(symbol).ask + tkp * point,
                  "deviation": 10,
+                 "spread": 0,
                  "type": mt5.ORDER_TYPE_BUY,
                  "type_filling": mt5.ORDER_FILLING_RETURN,
                  "comment": "Boa pega no brewwww V@",
@@ -220,6 +231,7 @@ else:
                 "sl": mt5.symbol_info_tick(symbol).bid + stp * point,
                 "tp": mt5.symbol_info_tick(symbol).bid - tkp * point,
                 "deviation": 10,
+                "spread": 0,
                 "type": mt5.ORDER_TYPE_SELL,
                 "type_filling": mt5.ORDER_FILLING_RETURN,
                 "comment": "Boa V@",
@@ -227,6 +239,7 @@ else:
             }
             # enviamos a solicitação de negociação
             result = mt5.order_send(request)
+            print(result)
             # verificamos o resultado da execução
             #print("1. order_send(): by {} {} lots at {} with deviation={} points".format(symbol, volume, price,
             #                                                                                 deviation))
@@ -240,19 +253,34 @@ else:
     # ****************Valor da condicao BUY e SELL**********************************************
     a1 = neg(flor)
 
+# ****************Config Global**********************************************
+# obtemos todos os símbolos
+symbols = mt5.symbols_get('')
+#print(symbols)
+# exibimos informações sobre ordens ativas do símbolo
+orders = mt5.orders_get(symbol=symbol)
+# tentamos ativar a exibição do símbolo no MarketWatch
+selected = mt5.symbol_select("symbol", True)
+print(f'selected', selected)
+# imprimimos as propriedades do símbolo EURJPY
+print(mt5.symbol_info("spread"))
+symbol_info = mt5.symbol_info()
+print(f'info', symbol_info)
 ticket = mt5.positions_get(symbol=symbol)[0][0]
 print(ticket)
 digits = mt5.symbol_info(symbol)
+print('f....', digits)
 TICKET = ticket
 MAX_DIST_SL = 1.0  # max distancai
-TRAIL_AMOUNT = 0.0001  # amaont
+TRAIL_AMOUNT = 0.00005  # amaont
 DEFAULT_SL = 1.01  # if posicao
 
 def trail_sl(TICKET, MAX_DIST_SL, TRAIL_AMOUNT, DEFAULT_SL):
     # pega a posicao no ticket
     position = mt5.positions_get(ticket=TICKET)[0]
-    print(position)
+    #print(position)
     symbol = position.symbol
+    print(symbol)
     order_type = position.type
     price_current = position.price_current
     price_open = position.price_open
@@ -301,7 +329,7 @@ def trail_sl(TICKET, MAX_DIST_SL, TRAIL_AMOUNT, DEFAULT_SL):
         # verificamos e exibimos o resultado como está
         result = mt5.order_check(request)
         resultOrd = mt5.order_send(request)
-        print(result);
+        #print(result);
         # print(resultOrd);
         return (result)
 
@@ -318,3 +346,33 @@ if __name__ == '__main__':
             # print(resultOrd);
 
         time.sleep(1)
+
+# This is what is important to you!
+#if(type == mt5.ORDER_TYPE_BUY):
+#    order_type = mt5.ORDER_TYPE_SELL
+#    price = mt5.symbol_info_tick(symbol).bid
+#else:
+#    order_type = mt5.ORDER_TYPE_BUY
+#    price = mt5.symbol_info_tick(symbol).ask
+#importance ends here.
+
+#sltp_request = {
+#    "action": mt5.TRADE_ACTION_SLTP,
+#    "symbol": symbol,
+#    "volume": float(volume),
+#    "type": order_type,
+#    "position": deal_id,
+#    "sl": sl,
+#    "price": price,
+#    "magic": 234000,
+#    "comment": "Change stop loss",
+#    "type_time": mt5.ORDER_TIME_GTC,
+ #   "type_filling": mt5.ORDER_FILLING_IOC,
+#}
+
+#result = mt5.order_send(sltp_request)
+'''
+request = {'action': mt5.TRADE_ACTION_SLTP, 'position': posicao[0][6], 'sl': 0.99700 }
+result = mt5.order_send(request)
+print(result)
+'''
