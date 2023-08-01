@@ -38,7 +38,7 @@ print('data_Hora_atual ->', hoje)
 
 # Informações do ativo
 ativo = "WDO$"
-symbol = 'WDOQ23'
+symbol = 'WDOU23'
 symbol_info = mt5.symbol_info(symbol)
 print('simbolo:',symbol_info)
 #posicao = (len(symbol_info))
@@ -112,20 +112,20 @@ y = tabela['close'].values
 '''Separa dados de trino e teste '''
 X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.618, random_state=42)
 #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-n_stimators = [int(x) for x in np.linspace(start=1, stop=100, num=10)]#'''Numero de Arvores[int(x) for x in np.linspace(start=1, stop=180, num=10)]'''
+n_stimators = [int(x) for x in np.linspace(start=1, stop=1000, num=1)]#'''Numero de Arvores[int(x) for x in np.linspace(start=1, stop=180, num=10)]'''
 max_samples = [None]
 '''Número de feições a serem consideradas em cada divisão'''
 max_features = ['sqrt',
                 'log2']  # número máximo de recursos (variáveis independentes) a serem considerados ao dividir um nó
 max_features.append(1.0)
 '''Número máximo de níveis na árvore'''
-max_depth = [int(x) for x in np.linspace(2, 100, num=10)]  # 11-[None, 30] 25
+max_depth = [int(x) for x in np.linspace(2, 1000, num=2)]  # 11-[None, 30] 25
 max_depth.append(None)
 '''Número mínimo de amostras necessárias para dividir um nó'''
-min_samples_split = [int(x) for x in np.linspace(2.0, 15, num=1)]  # numero 2 e default--float usa ponto(número mínimo de amostras em um subconjunto (também conhecido como nó) para dividi-lo em mais dois subconjuntos)2, 3, 5, 8, 13, 21, 34, 55, 89, 134
+min_samples_split = [int(x) for x in np.linspace(2.0,450, num=2)]  # numero 2 e default--float usa ponto(número mínimo de amostras em um subconjunto (também conhecido como nó) para dividi-lo em mais dois subconjuntos)2, 3, 5, 8, 13, 21, 34, 55, 89, 134
 min_samples_split.append(2)
 '''Número mínimo de amostras necessárias em cada nó folha'''
-min_samples_leaf = [int(x) for x in np.linspace(2.0, 15, num=1)]  # 8 '76' 1 = default-float usa ponto 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 134
+min_samples_leaf = [int(x) for x in np.linspace(2.0, 150, num=1)]  # 8 '76' 1 = default-float usa ponto 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 134
 min_samples_leaf.append(1)
 '''Número mínimo de amostras necessárias em cada nó folha'''
 bootstrap = [True]
