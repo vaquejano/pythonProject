@@ -271,7 +271,7 @@ print(ticket)
 digits = mt5.symbol_info(symbol)
 print('f....', digits)
 TICKET = ticket
-MAX_DIST_SL = 1.0  # max distancai
+MAX_DIST_SL = 2.0  # max distancai
 TRAIL_AMOUNT = 0.00005  # amaont
 DEFAULT_SL = 1.01  # if posicao
 

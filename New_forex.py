@@ -13,7 +13,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn import metrics
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
-from BreackEv import price_open
+#from BreackEv import price_open
 #****************Modulo sched*************************************
 import sched
 import time
