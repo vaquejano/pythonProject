@@ -469,10 +469,10 @@ def main():
         #****************funcao simples compra e venda**********************************************
             def neg(fl):
                 print('-->',fl)
-                if (fl == -1.0):
+                if (fl == 1.0):
                     print('Compra ^')
-                    volume = 1.0
-                    stp = 10000
+                    volume = -1.0
+                    stp = 5000
                     tkp = 20000
                     point = mt5.symbol_info(symbol).point
                     request = {
@@ -497,7 +497,7 @@ def main():
                 elif (fl == -1.0):
                     print('Venda V')
                     volume = 1.0
-                    stp = 10000
+                    stp = 5000
                     tkp = 20000
                     point = mt5.symbol_info(symbol).point
                     request = {

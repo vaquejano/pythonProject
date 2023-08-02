@@ -9,14 +9,14 @@ if not mt5.initialize():
 print('******************')
 print('*   conectado    *')
 print('******************')
-symbol = 'WDOQ23'
+symbol = 'WDOU23'
 '''parametros da ordem compra'''
 point = mt5.symbol_info(symbol).point
 bilhete = mt5.positions_get(symbol=symbol)[0]
 print(bilhete)
 '''parametros da ordem'''
 ticket = bilhete.ticket
-symbol = 'WDOQ23'
+symbol = 'WDOU23'
 price_open = bilhete.price_open
 sl = bilhete.sl
 profit = bilhete.profit

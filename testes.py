@@ -104,7 +104,7 @@ plt.show()
 #sns.heatmap(tabela.corr(), annot=True, vmin=-1, vmax=1, cmap='Reds')
 #plt.show()
 '''Separa dados de X e y '''
-X = tabela.drop(columns=["close"], axis=1) .fillna(0)
+X = tabela.drop(columns=["close", "signal"], axis=1) .fillna(0)
 y = tabela['close'].values
 #****************Grafico correlacao de X *********************************************
 #sns.heatmap(X.corr(), annot=True, vmin=-1, vmax=1, cmap='Reds')
@@ -122,10 +122,10 @@ max_features.append(1.0)
 max_depth = [int(x) for x in np.linspace(2, 1000, num=2)]  # 11-[None, 30] 25
 max_depth.append(None)
 '''Número mínimo de amostras necessárias para dividir um nó'''
-min_samples_split = [int(x) for x in np.linspace(2.0,450, num=2)]  # numero 2 e default--float usa ponto(número mínimo de amostras em um subconjunto (também conhecido como nó) para dividi-lo em mais dois subconjuntos)2, 3, 5, 8, 13, 21, 34, 55, 89, 134
+min_samples_split = [int(x) for x in np.linspace(2.0,450, num=5)]  # numero 2 e default--float usa ponto(número mínimo de amostras em um subconjunto (também conhecido como nó) para dividi-lo em mais dois subconjuntos)2, 3, 5, 8, 13, 21, 34, 55, 89, 134
 min_samples_split.append(2)
 '''Número mínimo de amostras necessárias em cada nó folha'''
-min_samples_leaf = [int(x) for x in np.linspace(2.0, 150, num=1)]  # 8 '76' 1 = default-float usa ponto 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 134
+min_samples_leaf = [int(x) for x in np.linspace(2.0, 150, num=15)]  # 8 '76' 1 = default-float usa ponto 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 134
 min_samples_leaf.append(1)
 '''Número mínimo de amostras necessárias em cada nó folha'''
 bootstrap = [True]
